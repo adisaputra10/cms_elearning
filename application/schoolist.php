@@ -23,7 +23,7 @@ $.ajax({
       +  data[i].type + "</td> <td>" 
       +  data[i].tenant_name + "</td> <td>" 
       +  data[i].aktif_date_sch + "</td> <td>  <button type='button'    value=" + data[i].id_schoolist  + " onClick='deletedata(this.value)' class='btn btn-danger btn-xs' title='Disable '><span class='glyphicon glyphicon-remove'></button> "
-      + "    <a class='btn btn-success btn-xs' title='Edit' href='index.php?view=user&act=edit&id=" + id_schoolist + "'> <span class='glyphicon glyphicon-edit'></span></a>  </td>    </tr>");
+      + "    <a class='btn btn-success btn-xs' title='Edit' href='index.php?view=schoolist&act=edit&id=" + id_schoolist + "'> <span class='glyphicon glyphicon-edit'></span></a>  </td>    </tr>");
 	
     x += 1 ;
     }   
@@ -93,22 +93,43 @@ function deletedata(clicked_id)
 
 elseif($_GET[act]=='edit'){
 
-   if (isset($_POST[update])){
+  ?> 
+  <script>  
+   
+  $.ajax({
+      url: '<?php echo $host ?>/index.php/schoolist/detail/<?php echo "$_GET[id]" ?>',
+      type: "get",
+      dataType: "json",
+      success: function(data) {
+      
+       // console.log(data );
+     //console.log(data[0].username );
+     document.getElementById("tenant_code").value=data[0].tenant_code;
+     document.getElementById("school_name").value=data[0].school_name;
+     document.getElementById("headmaster").value=data[0].headmaster;
+  
+     document.getElementById("city").value=data[0].city_sch;
+     document.getElementById("typesch").value=data[0].type;
+     document.getElementById("address").value=data[0].address_sch;
+     document.getElementById("province").value=data[0].province_sch;
+     document.getElementById("postal").value=data[0].postal_code_sch;
+  
+  
+     document.getElementById("contact_person").value=data[0].contact_person;
+     document.getElementById("phone").value=data[0].phone_sch;
+   
+  
+     document.getElementById("email").value=data[0].email_sch;
+     document.getElementById("aktif_date").value=data[0].aktif_date_sch;
 
-      if(empty($_POST['nama']) || empty($_POST['nik']) || empty($_POST['kec']) || empty($_POST['desa']) || empty($_POST['nohp']) ){
-        echo "<script>alert('Harap isi semua data')</script>";
-      }else{
-        $query = mysql_query("UPDATE data SET nama = '$_POST[nama]',
-                                         nik = '$_POST[nik]', kec = '$_POST[kec]', desa = '$_POST[desa]', nohp = '$_POST[nohp]'    where id_data='$_POST[id]'");
-        if ($query){
-          echo "<script>document.location='index.php?view=data&sukses';</script>";
-        }else{
-          echo "<script>document.location='index.php?view=data&gagal';</script>";
-        } }
-    
-    
-    
+        var x=1;
       }
+  });
+   </script> 
+  
+  <?php
+
+  
     $edit = mysql_query("SELECT * FROM data where id_data='$_GET[id]'");
     $s = mysql_fetch_array($edit);
     echo "<div class='col-md-12'>
@@ -121,15 +142,21 @@ elseif($_GET[act]=='edit'){
                 <div class='col-md-12'>
                   <table class='table table-condensed table-bordered'>
                   <tbody>
-                    <input type='hidden' name='id' value='$s[id_data]'>
-                
-                    <tr><th width='120px' scope='row'>Nama</th> <td><input type='text' class='form-control' name='nama'   value='$s[nama]'> </td></tr>
-                    <tr><th width='120px' scope='row'>NIK</th> <td><input type='text' class='form-control' name='nik'  value='$s[nik]'> </td></tr>
-                    <tr><th width='120px' scope='row'>Kecamatan</th> <td><input type='text' class='form-control' name='kec'  value='$s[kec]'> </td></tr>
-                    <tr><th width='120px' scope='row'>Desa</th> <td><input type='text' class='form-control' name='desa'  value='$s[desa]'> </td></tr>
-                    <tr><th width='120px' scope='row'>No HP</th> <td><input type='text' class='form-control' name='nohp'  value='$s[nohp]'> </td></tr>
-                  
-
+                  <tr><th width='120px' scope='row'>Tenant Code</th> <td><input type='text' class='form-control' id='tenant_code'> </td></tr>
+                  <tr><th width='120px' scope='row'>School Name</th> <td><input type='text' class='form-control' id='school_name'> </td></tr>
+                  <tr><th width='120px' scope='row'>Headmaster</th> <td><input type='text' class='form-control'  id='headmaster'> </td></tr>
+                  <tr><th width='120px' scope='row'>School Type</th> <td><input type='text' class='form-control' id='typesch'> </td></tr>
+                  <tr><th width='120px' scope='row'>Address</th> <td><input type='text' class='form-control' id='address'> </td></tr>
+                  <tr><th width='120px' scope='row'>City</th> <td><input type='text' class='form-control' id='city'> </td></tr>
+                  <tr><th width='120px' scope='row'>Province</th> <td><input type='text' class='form-control' id='province'> </td></tr>
+                  <tr><th width='120px' scope='row'>Postal Code</th> <td><input type='text' class='form-control' id='postal'> </td></tr>
+                  <tr><th width='120px' scope='row'>Contact Person</th> <td><input type='text' class='form-control' id='contact_person'> </td></tr>
+                  <tr><th width='120px' scope='row'> Phone </th> <td><input type='text' class='form-control' id='phone'> </td></tr>
+ 
+                  <tr><th width='120px' scope='row'> Email </th> <td><input type='text' class='form-control' id='email'> </td></tr>
+               
+                  <tr><th width='120px' scope='row'> Aktif Date </th> <td><input type='text' readonly='true' class='form-control' id='aktif_date'> </td></tr>
+               
 
             
                     </tbody>

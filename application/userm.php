@@ -26,7 +26,7 @@ $.ajax({
       +  data[i].email_user + "</td> <td>" 
       +  data[i].handphone_user + "</td> <td>" 
       +  data[i].lastlogin + "</td> <td>  <button type='button'    value=" + data[i].id_user  + " onClick='deletedata(this.value)' class='btn btn-danger btn-xs' title='Disable '><span class='glyphicon glyphicon-remove'></button> "
-      + "    <a class='btn btn-success btn-xs' title='Edit' href='index.php?view=user&act=edit&id=" + id_user + "'> <span class='glyphicon glyphicon-edit'></span></a>  </td>    </tr>");
+      + "    <a class='btn btn-success btn-xs' title='Edit' href='index.php?view=userm&act=edit&id=" + id_user + "'> <span class='glyphicon glyphicon-edit'></span></a>  </td>    </tr>");
 	
     x += 1 ;
     }   
@@ -131,23 +131,33 @@ function deletedata(clicked_id)
 }
 
 elseif($_GET[act]=='edit'){
+?> 
 
-   if (isset($_POST[update])){
+<script>  
+   
+$.ajax({
+    url: '<?php echo $host ?>/index.php/user/detail/<?php echo "$_GET[id]" ?>',
+    type: "get",
+    dataType: "json",
+    success: function(data) {
+    
+     // console.log(data );
+   //console.log(data[0].username );
+   document.getElementById("username").value=data[0].username;
+   document.getElementById("email").value=data[0].email_user;
+   document.getElementById("mobile").value=data[0].handphone_user;
 
-      if(empty($_POST['nama']) || empty($_POST['nik']) || empty($_POST['kec']) || empty($_POST['desa']) || empty($_POST['nohp']) ){
-        echo "<script>alert('Harap isi semua data')</script>";
-      }else{
-        $query = mysql_query("UPDATE data SET nama = '$_POST[nama]',
-                                         nik = '$_POST[nik]', kec = '$_POST[kec]', desa = '$_POST[desa]', nohp = '$_POST[nohp]'    where id_data='$_POST[id]'");
-        if ($query){
-          echo "<script>document.location='index.php?view=data&sukses';</script>";
-        }else{
-          echo "<script>document.location='index.php?view=data&gagal';</script>";
-        } }
+   
+
+      var x=1;
     
-    
-    
-      }
+    }
+});
+ </script> 
+
+<?php
+  
+  
     $edit = mysql_query("SELECT * FROM data where id_data='$_GET[id]'");
     $s = mysql_fetch_array($edit);
     echo "<div class='col-md-12'>
@@ -161,13 +171,13 @@ elseif($_GET[act]=='edit'){
                   <table class='table table-condensed table-bordered'>
                   <tbody>
                     <input type='hidden' name='id' value='$s[id_data]'>
-                
-                    <tr><th width='120px' scope='row'>Nama</th> <td><input type='text' class='form-control' name='nama'   value='$s[nama]'> </td></tr>
-                    <tr><th width='120px' scope='row'>NIK</th> <td><input type='text' class='form-control' name='nik'  value='$s[nik]'> </td></tr>
-                    <tr><th width='120px' scope='row'>Kecamatan</th> <td><input type='text' class='form-control' name='kec'  value='$s[kec]'> </td></tr>
-                    <tr><th width='120px' scope='row'>Desa</th> <td><input type='text' class='form-control' name='desa'  value='$s[desa]'> </td></tr>
-                    <tr><th width='120px' scope='row'>No HP</th> <td><input type='text' class='form-control' name='nohp'  value='$s[nohp]'> </td></tr>
-                  
+                    <tr><th width='120px' scope='row'>Username</th> <td><input type='text' class='form-control'  id='username'  > </td></tr>
+
+                    <tr><th width='120px' scope='row'>Email</th> <td><input type='text' class='form-control' id='email' > </td></tr>
+                    <tr><th width='120px' scope='row'>Mobile</th> <td><input type='text' class='form-control' id='mobile' > </td></tr>
+                    <tr><th width='120px' scope='row'>Password</th> <td><input type='password' class='form-control' id='password'  > </td></tr>
+                    <tr><th width='120px' scope='row'>Ulang Password</th> <td><input type='password' class='form-control'  id='upassword' > </td></tr>
+          
 
 
             
@@ -176,29 +186,14 @@ elseif($_GET[act]=='edit'){
                 </div>
               </div>
               <div class='box-footer'>
-                    <button type='submit' name='update' class='btn btn-info'>Update</button>
+              <button type='button' name='tambah'  onclick='simpan()' class='btn btn-info'>Simpan</button>
                     <a href='index.php?view=golongan'><button class='btn btn-default pull-right'>Cancel</button></a>
                     
                   </div>
               </form>
             </div>";
 }elseif($_GET[act]=='tambah'){
-    if (isset($_POST[tambah])){
-
-      if(empty($_POST['nama']) || empty($_POST['nik']) || empty($_POST['kec']) || empty($_POST['desa']) || empty($_POST['nohp']) ){
-        echo "<script>alert('Harap isi semua data')</script>";
-      }else{
-        $date=date("Y-m-d");
-        $query = mysql_query("INSERT INTO data VALUES('','$_POST[nama]','$_POST[nik]','$_POST[kec]','$_POST[desa]','$_POST[nohp]','web','$date','' )");
-
-        if ($query){
-          echo "<script>document.location='index.php?view=data&sukses';</script>";
-        }else{
-          echo "<script>document.location='index.php?view=data&gagal';</script>";
-        }
-
-      }
-    }
+   
 
     echo "<div class='col-md-12'>
               <div class='box box-info'>

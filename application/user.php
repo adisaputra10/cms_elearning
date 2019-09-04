@@ -133,7 +133,33 @@ function deletedata(clicked_id)
 }
 
 elseif($_GET[act]=='edit'){
+?>
 
+<script>  
+   
+$.ajax({
+    url: '<?php echo $host ?>/index.php/user/detail/<?php echo "$_GET[id]" ?>',
+    type: "get",
+    dataType: "json",
+    success: function(data) {
+    
+     // console.log(data );
+   //console.log(data[0].username );
+   document.getElementById("tenant_code").value=data[0].tenant_code;
+   document.getElementById("username").value=data[0].username;
+   document.getElementById("email").value=data[0].email_user;
+   document.getElementById("mobile").value=data[0].handphone_user;
+
+   
+
+      var x=1;
+    
+    }
+});
+ </script>
+
+
+<?php
     
     $edit = mysql_query("SELECT * FROM data where id_data='$_GET[id]'");
     $s = mysql_fetch_array($edit);
@@ -147,14 +173,15 @@ elseif($_GET[act]=='edit'){
                 <div class='col-md-12'>
                   <table class='table table-condensed table-bordered'>
                   <tbody>
-                    <input type='hidden' name='id' value='$s[id_data]'>
-                
-                    <tr><th width='120px' scope='row'>Nama</th> <td><input type='text' class='form-control' name='nama'   value='$s[nama]'> </td></tr>
-                    <tr><th width='120px' scope='row'>NIK</th> <td><input type='text' class='form-control' name='nik'  value='$s[nik]'> </td></tr>
-                    <tr><th width='120px' scope='row'>Kecamatan</th> <td><input type='text' class='form-control' name='kec'  value='$s[kec]'> </td></tr>
-                    <tr><th width='120px' scope='row'>Desa</th> <td><input type='text' class='form-control' name='desa'  value='$s[desa]'> </td></tr>
-                    <tr><th width='120px' scope='row'>No HP</th> <td><input type='text' class='form-control' name='nohp'  value='$s[nohp]'> </td></tr>
-                  
+                  <input type='hidden' name='id' id='id' value='$_GET[id]'>
+                  <tr><th width='120px' scope='row'> Tenant Code</th> <td><input type='text' class='form-control' id='tenant_code'  > </td></tr>
+                  <tr><th width='120px' scope='row'>Username</th> <td><input type='text' class='form-control'  id='username'  > </td></tr>
+
+                  <tr><th width='120px' scope='row'>Email</th> <td><input type='text' class='form-control' id='email' > </td></tr>
+                  <tr><th width='120px' scope='row'>Mobile</th> <td><input type='text' class='form-control' id='mobile' > </td></tr>
+                  <tr><th width='120px' scope='row'>Password</th> <td><input type='password' class='form-control' id='password'  > </td></tr>
+                  <tr><th width='120px' scope='row'>Ulang Password</th> <td><input type='password' class='form-control'  id='upassword' > </td></tr>
+        
 
 
             
