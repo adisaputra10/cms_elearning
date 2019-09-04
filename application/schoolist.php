@@ -157,8 +157,6 @@ elseif($_GET[act]=='edit'){
                
                   <tr><th width='120px' scope='row'> Aktif Date </th> <td><input type='text' readonly='true' class='form-control' id='aktif_date'> </td></tr>
                
-
-            
                     </tbody>
                   </table>
                 </div>

@@ -72,14 +72,35 @@
 
 
 
-
+<?php   $host="http://localhost:82/web/bakend-elearning/"; ?>
 <script type="text/javascript">
 
 function login() {
 
   var username = document.getElementById("username").value;
   var password = document.getElementById("password").value;
-  window.location = "index.php";
+  $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "<?php echo $host;?>/index.php/user/auth",
+                    data: {username: username , password: password },
+                    success: function (msg) {
+                       
+                 
+                     if (msg == 'success') {
+                        
+                        localStorage.setItem("username", username);
+                            alert(' Berhasil login ');
+                            window.location = "index.php";
+                          }  else {
+                            alert('Password login invalid');
+                            localStorage.removeItem("username");
+                          } 
+
+                          
+
+                    }
+                });
 
 
 

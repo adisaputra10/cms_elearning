@@ -66,6 +66,19 @@
 
   </head>
 
+
+  <script type="text/javascript">
+ 
+ if(localStorage.getItem("username") == null ){
+   alert('Login kembali');
+
+    window.location = "login.php";
+
+    console.log(localStorage.getItem("username"));
+ }
+
+ </script>
+
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
       <header class="main-header">
