@@ -30,7 +30,7 @@ $.ajax({
       +  data[i].username + "</td> <td>" 
       +  data[i].email_user + "</td> <td>" 
       +  data[i].handphone_user + "</td> <td>" 
-      +  data[i].lastlogin + "</td> <td>  <button type='button'    value=" + data[i].id_user  + " onClick='deletedata(this.value)' class='btn btn-danger btn-xs' title='Disable '><span class='glyphicon glyphicon-remove'></button> "
+      +  data[i].lastlogin + "</td> <td>  <button type='button'    value=" + data[i].id_user  + " onClick='deletedata(this.value)' class='btn btn-danger btn-xs' title='Delete '><span class='glyphicon glyphicon-remove'></button> "
       + "    <a class='btn btn-success btn-xs' title='Edit' href='index.php?view=user&act=edit&id=" + id_user + "'> <span class='glyphicon glyphicon-edit'></span></a>  </td>    </tr>");
 		
 
@@ -40,6 +40,35 @@ $.ajax({
     }
 });
  </script>
+
+
+
+<script type="text/javascript">
+function deletedata(clicked_id)
+  {
+ 
+       $.ajax({
+                    type: "DELETE",
+                    dataType: "json",
+                    url: '<?php echo $host ?>/index.php/user/delete/'+clicked_id,
+                    data: {id_user: clicked_id},
+                    success: function (msg) {
+                        if (msg == '') {
+                        } else {
+                         
+                          alert("Data berhasil di hapus");
+                        }
+                     location.reload();
+                    }
+                }); 
+  }
+</script>
+
+
+
+
+
+
             <div class="col-xs-12">  
               <div class="box">
                 <div class="box-header">
@@ -53,19 +82,6 @@ $.ajax({
                   <?php } ?>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                <?php 
-                  if (isset($_GET['sukses'])){
-                      echo "<div class='alert alert-success alert-dismissible fade in' role='alert'> 
-                          <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                          <span aria-hidden='true'>×</span></button> <strong>Sukses!</strong> - Data telah Berhasil Di Proses,..
-                          </div>";
-                  }elseif(isset($_GET['gagal'])){
-                      echo "<div class='alert alert-danger alert-dismissible fade in' role='alert'> 
-                          <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                          <span aria-hidden='true'>×</span></button> <strong>Gagal!</strong> - Data tidak Di Proses, terjadi kesalahan dengan data..
-                          </div>";
-                  }
-                ?>
                   <table id="mytable" class="table table-bordered table-striped">
                     <thead>
                       <tr>
@@ -118,22 +134,7 @@ $.ajax({
 
 elseif($_GET[act]=='edit'){
 
-   if (isset($_POST[update])){
-
-      if(empty($_POST['nama']) || empty($_POST['nik']) || empty($_POST['kec']) || empty($_POST['desa']) || empty($_POST['nohp']) ){
-        echo "<script>alert('Harap isi semua data')</script>";
-      }else{
-        $query = mysql_query("UPDATE data SET nama = '$_POST[nama]',
-                                         nik = '$_POST[nik]', kec = '$_POST[kec]', desa = '$_POST[desa]', nohp = '$_POST[nohp]'    where id_data='$_POST[id]'");
-        if ($query){
-          echo "<script>document.location='index.php?view=data&sukses';</script>";
-        }else{
-          echo "<script>document.location='index.php?view=data&gagal';</script>";
-        } }
     
-    
-    
-      }
     $edit = mysql_query("SELECT * FROM data where id_data='$_GET[id]'");
     $s = mysql_fetch_array($edit);
     echo "<div class='col-md-12'>
@@ -169,25 +170,7 @@ elseif($_GET[act]=='edit'){
               </form>
             </div>";
 }elseif($_GET[act]=='tambah'){
-    if (isset($_POST[tambah])){
-
-      if(empty($_POST['nama']) || empty($_POST['nik']) || empty($_POST['kec']) || empty($_POST['desa']) || empty($_POST['nohp']) ){
-        echo "<script>alert('Harap isi semua data')</script>";
-      }else{
-        $date=date("Y-m-d");
-        $query = mysql_query("INSERT INTO data VALUES('','$_POST[nama]','$_POST[nik]','$_POST[kec]','$_POST[desa]','$_POST[nohp]','web','$date','' )");
-
-        if ($query){
-          echo "<script>document.location='index.php?view=data&sukses';</script>";
-        }else{
-          echo "<script>document.location='index.php?view=data&gagal';</script>";
-        }
-
-      }
-
-      
-
-    }
+    
 
     echo "<div class='col-md-12'>
               <div class='box box-info'>
@@ -195,17 +178,17 @@ elseif($_GET[act]=='edit'){
                   <h3 class='box-title'>Add User Tenant</h3>
                 </div>
               <div class='box-body'>
-              <form method='POST' class='form-horizontal' action='' enctype='multipart/form-data'>
+              <form method='POST' id='my_form' class='form-horizontal' action='' enctype='multipart/form-data'>
                 <div class='col-md-12'>
                   <table class='table table-condensed table-bordered'>
                   <tbody>
-                    <tr><th width='120px' scope='row'> Tenant Code</th> <td><input type='text' class='form-control' name='nama'> </td></tr>
-                    <tr><th width='120px' scope='row'>Username</th> <td><input type='text' class='form-control' name='nik'> </td></tr>
+                    <tr><th width='120px' scope='row'> Tenant Code</th> <td><input type='text' class='form-control' id='tenant_code'  > </td></tr>
+                    <tr><th width='120px' scope='row'>Username</th> <td><input type='text' class='form-control'  id='username'  > </td></tr>
 
-                    <tr><th width='120px' scope='row'>Email</th> <td><input type='text' class='form-control' name='username'> </td></tr>
-                    <tr><th width='120px' scope='row'>Mobile</th> <td><input type='text' class='form-control' name='username'> </td></tr>
-                    <tr><th width='120px' scope='row'>Password</th> <td><input type='text' class='form-control' name='kec'> </td></tr>
-                    <tr><th width='120px' scope='row'>Ulang Password</th> <td><input type='text' class='form-control' name='desa'> </td></tr>
+                    <tr><th width='120px' scope='row'>Email</th> <td><input type='text' class='form-control' id='email' > </td></tr>
+                    <tr><th width='120px' scope='row'>Mobile</th> <td><input type='text' class='form-control' id='mobile' > </td></tr>
+                    <tr><th width='120px' scope='row'>Password</th> <td><input type='password' class='form-control' id='password'  > </td></tr>
+                    <tr><th width='120px' scope='row'>Ulang Password</th> <td><input type='password' class='form-control'  id='upassword' > </td></tr>
           
                     
                   </tbody>
@@ -213,11 +196,48 @@ elseif($_GET[act]=='edit'){
                 </div>
               </div>
               <div class='box-footer'>
-                    <button type='submit' name='tambah' class='btn btn-info'>Save</button>
+              <button type='button' name='tambah'  onclick='simpan()' class='btn btn-info'>Tambahkan</button>
                     <a href='index.php?view=data'><button class='btn btn-default pull-right'>Cancel</button></a>
                     
                   </div>
               </form>
             </div>";
+?>
+
+<script type="text/javascript">
+
+function simpan() {
+
+  var tenant_code = document.getElementById("tenant_code").value;
+  var username = document.getElementById("username").value;
+  var email = document.getElementById("email").value;
+  var mobile = document.getElementById("mobile").value;
+  var password = document.getElementById("password").value;
+  var upassword = document.getElementById("upassword").value;
+ 
+
+  $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: '<?php echo $host ?>/index.php/user/create',
+                    data: {tenant_code: tenant_code , username: username ,email: email, mobile: mobile, password: password, upassword: upassword},
+                    success: function (msg) {
+                        if (msg == '') {
+                        } else {
+                         //   alert(msg);
+                        }
+                        alert('Data berhasil di simpan');
+                        window.location = "index.php?view=user";
+                    }
+                });
+ 
+}
+</script>
+
+
+
+
+<?php
+          
 }
 ?>

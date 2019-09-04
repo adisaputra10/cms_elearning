@@ -34,6 +34,29 @@ $.ajax({
 });
  </script>
 
+
+
+<script type="text/javascript">
+function deletedata(clicked_id)
+  {
+ 
+       $.ajax({
+                    type: "DELETE",
+                    dataType: "json",
+                    url: '<?php echo $host ?>/index.php/user/delete/'+clicked_id,
+                    data: {id_user: clicked_id},
+                    success: function (msg) {
+                        if (msg == '') {
+                        } else {
+                         
+                          alert("Data berhasil di hapus");
+                        }
+                     location.reload();
+                    }
+                }); 
+  }
+</script>
+
             <div class="col-xs-12">  
               <div class="box">
                 <div class="box-header">
@@ -62,7 +85,7 @@ $.ajax({
                     <thead>
                       <tr>
                         <th style='width:40px'>No</th>
-                        <th>Name</th>
+                
                         <th>Username</th>
                         <th>Email</th>
                         <th>Mobile</th>
@@ -183,28 +206,68 @@ elseif($_GET[act]=='edit'){
                   <h3 class='box-title'>Add User</h3>
                 </div>
               <div class='box-body'>
-              <form method='POST' class='form-horizontal' action='' enctype='multipart/form-data'>
+              <form method='POST' id='my_form' class='form-horizontal' action='' enctype='multipart/form-data'>
                 <div class='col-md-12'>
                   <table class='table table-condensed table-bordered'>
                   <tbody>
-                    <tr><th width='120px' scope='row'>Nama</th> <td><input type='text' class='form-control' name='nama'> </td></tr>
-                    <tr><th width='120px' scope='row'>Username</th> <td><input type='text' class='form-control' name='username'> </td></tr>
-                    <tr><th width='120px' scope='row'>Email</th> <td><input type='text' class='form-control' name='username'> </td></tr>
-                    <tr><th width='120px' scope='row'>Mobile</th> <td><input type='text' class='form-control' name='username'> </td></tr>
-                    <tr><th width='120px' scope='row'>Password</th> <td><input type='password' class='form-control' name='password'> </td></tr>
-                    <tr><th width='120px' scope='row'>Ulang Password</th> <td><input type='password' class='form-control' name='upassword'> </td></tr>
-                    
+                   <tr><th width='120px' scope='row'>Username</th> <td><input type='text' class='form-control'  id='username'  > </td></tr>
+
+                  <tr><th width='120px' scope='row'>Email</th> <td><input type='text' class='form-control' id='email' > </td></tr>
+                  <tr><th width='120px' scope='row'>Mobile</th> <td><input type='text' class='form-control' id='mobile' > </td></tr>
+                  <tr><th width='120px' scope='row'>Password</th> <td><input type='password' class='form-control' id='password'  > </td></tr>
+                  <tr><th width='120px' scope='row'>Ulang Password</th> <td><input type='password' class='form-control'  id='upassword' > </td></tr>
+        
                     
                   </tbody>
                   </table>
                 </div>
               </div>
               <div class='box-footer'>
-                    <button type='submit' name='tambah' class='btn btn-info'>Save</button>
+              <button type='button' name='tambah'  onclick='simpan()' class='btn btn-info'>Tambahkan</button>
                     <a href='index.php?view=userm'><button class='btn btn-default pull-right'>Cancel</button> </a>
                     
                   </div>
               </form>
             </div>";
+
+?>
+
+
+<script type="text/javascript">
+
+function simpan() {
+
+  var tenant_code = 99;
+  var username = document.getElementById("username").value;
+  var email = document.getElementById("email").value;
+  var mobile = document.getElementById("mobile").value;
+  var password = document.getElementById("password").value;
+  var upassword = document.getElementById("upassword").value;
+ 
+
+  $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: '<?php echo $host ?>/index.php/user/create',
+                    data: {tenant_code: tenant_code , username: username ,email: email, mobile: mobile, password: password, upassword: upassword},
+                    success: function (msg) {
+                        if (msg == '') {
+                        } else {
+                         //   alert(msg);
+                        }
+                        alert('Data berhasil di simpan');
+                        window.location = "index.php?view=userm";
+                    }
+                });
+ 
+}
+</script>
+
+
+
+
+<?php 
+
+
 }
 ?>
