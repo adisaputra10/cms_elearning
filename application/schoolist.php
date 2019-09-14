@@ -173,14 +173,16 @@ elseif($_GET[act]=='edit'){
     echo "<div class='col-md-12'>
               <div class='box box-info'>
                 <div class='box-header with-border'>
-                  <h3 class='box-title'>Add User Schoolist</h3>
+                  <h3 class='box-title'>Add School LMS</h3>
                 </div>
               <div class='box-body'>
               <form method='POST' class='form-horizontal' action='' enctype='multipart/form-data'>
                 <div class='col-md-12'>
                   <table class='table table-condensed table-bordered'>
                   <tbody>
-                    <tr><th width='120px' scope='row'>Tenant Code</th> <td><input type='text' class='form-control' id='tenant_code'> </td></tr>
+                    <tr><th width='120px' scope='row'>Tenant</th> <td>
+                    <select name=''> <option>M</option></select>
+                   </td></tr>
                     <tr><th width='120px' scope='row'>School Name</th> <td><input type='text' class='form-control' id='school_name'> </td></tr>
                     <tr><th width='120px' scope='row'>Headmaster</th> <td><input type='text' class='form-control'  id='headmaster'> </td></tr>
                     <tr><th width='120px' scope='row'>School Type</th> <td><input type='text' class='form-control' id='typesch'> </td></tr>
