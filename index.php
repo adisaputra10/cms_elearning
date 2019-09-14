@@ -1,7 +1,7 @@
 <?php 
   session_start();
   error_reporting(0);
-  $host="http://localhost:82/web/bakend-elearning/";
+  $host="http://api.sukmatech.com";
 ?>
 <!DOCTYPE html>
 <html>

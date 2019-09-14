@@ -21,10 +21,10 @@
   <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href=" "><b>Elearning</b> </a>
+        <a href=" "><b>Core LMS</b> </a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
-        <p class="login-box-msg">Silahkan Login Pada Form dibawah ini</p>
+        <p class="login-box-msg">Login Page</p>
 
         <form action="" method="post">
           <div class="form-group has-feedback">

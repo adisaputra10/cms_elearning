@@ -6,6 +6,28 @@ if ($_GET[act]==''){
  
   ?> 
 
+
+
+<script>  
+   
+   
+$.ajax({
+    url: 'http://dev.govcek.com/index.php/master_api/request_inspection',
+    type: "get",
+    dataType: "json",
+    success: function(msg) {
+      var dataArray =  msg;
+      console.log("data")
+      console.log(dataArray.data)
+      console.log(dataArray.data[0].id)
+      
+      
+    }
+});
+ </script>
+
+
+
 <script>  
    
    
