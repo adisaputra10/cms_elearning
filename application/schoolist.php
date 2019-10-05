@@ -107,7 +107,6 @@ elseif($_GET[act]=='edit'){
      document.getElementById("tenant_code").value=data[0].tenant_code;
      document.getElementById("school_name").value=data[0].school_name;
      document.getElementById("headmaster").value=data[0].headmaster;
-  
      document.getElementById("city").value=data[0].city_sch;
      document.getElementById("typesch").value=data[0].type;
      document.getElementById("address").value=data[0].address_sch;

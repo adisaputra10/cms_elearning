@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2019-09-15T14:01:52Z"
+  labels:
+    app: moodle-2
+  name: moodle-2
+  namespace: moodle
+  resourceVersion: "199756"
+  
+
+spec:
+  externalTrafficPolicy: Cluster
+  selector:
+    app: moodle-2
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
+  sessionAffinity: None
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "3"
+  creationTimestamp: "2019-09-15T14:00:54Z"
+  generation: 8
+  labels:
+    app: moodle-2
+  name: moodle-2
+  namespace: moodle
+  resourceVersion: "5438196"
+  selfLink: /apis/apps/v1/namespaces/moodle/deployments/moodle
+  uid: 3c20fc31-d7c1-11e9-b12a-42010a800031
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: moodle-2
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: moodle-2
+    spec:
+      containers:
+      - image: adisaputra10/moodle
+        imagePullPolicy: Always
+        name: moodle1
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 5
+  conditions:
+  - lastTransitionTime: "2019-09-15T14:00:55Z"
+    lastUpdateTime: "2019-09-15T23:14:04Z"
+    message: ReplicaSet "moodle-7d8c88df95" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2019-09-28T23:49:10Z"
+    lastUpdateTime: "2019-09-28T23:49:10Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 8
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
